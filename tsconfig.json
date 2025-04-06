@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "baseUrl": "./src",
+    "paths": {
+      "routes/*": [
+        "routes/*"
+      ],
+      "controllers/*": [
+        "controllers/*"
+      ],
+      "utils/*": [
+        "utils/*"
+      ]
+    },
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "include": [
+    "src"
+  ]
+}
