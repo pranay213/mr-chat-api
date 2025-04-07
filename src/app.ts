@@ -9,9 +9,10 @@ import logger from './middlewares/logger';
 import response from './utils/response';
 
 import { connectMongoDB } from './config/mongo';
-import { connectMySQL } from './config/mysql';
+import './config/mysql';
 import { connectRedis } from './config/redis';
 import { pgPool } from './config/postgres'; // pgPool is an instance, not a function
+import { connectMySQL } from './config/mysql';
 
 const app = express();
 
@@ -22,6 +23,17 @@ app.use(logger);
 connectMongoDB();
 connectMySQL();
 connectRedis();
+
+app.get('/pg-test', async (req, res) => {
+    try {
+        const result = await pgPool.query('SELECT NOW()');
+        res.json({ success: true, time: result.rows[0] });
+    } catch (error) {
+        console.error('PostgreSQL query error:', error);
+        res.status(500).json({ success: false, error: 'Database error' });
+    }
+});
+
 
 // ✅ Routes
 app.get('/api', (req, res) => {

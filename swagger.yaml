@@ -41,19 +41,48 @@ paths:
                 success: true
                 message: Request successful
                 data: {}
+  /api/users/some-test:
+    post:
+      summary: POST /api/users/some-test
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            example:
+              message: Sample request body
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              example:
+                success: true
+                message: Request successful
+                data: {}
+  /api/users/new-route:
+    post:
+      summary: POST /api/users/new-route
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            example:
+              message: Sample request body
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              example:
+                success: true
+                message: Request successful
+                data: {}
 components:
   schemas:
     Data:
       title: data
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-        _id:
-          type: string
-    Profile:
-      title: profile
       properties:
         name:
           type: string

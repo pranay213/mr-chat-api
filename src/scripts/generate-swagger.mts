@@ -70,17 +70,16 @@ for (const file of routeFiles) {
     }
 }
 
-// ========= Step 3: Load Mongoose Schemas from nested models/* =========
+// ========= Step 3: Load Mongoose Schemas =========
 const modelsPath = path.join(__dirname, '../models');
 const schemas: Record<string, any> = {};
 
-// Recursive file walker
 async function collectMongooseSchemas(dir: string) {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
     for (const entry of entries) {
         const fullPath = path.join(dir, entry.name);
         if (entry.isDirectory()) {
-            await collectMongooseSchemas(fullPath); // recurse
+            await collectMongooseSchemas(fullPath);
         } else if (entry.isFile() && entry.name.endsWith('.ts')) {
             const modelModule = await import(`file://${fullPath}`);
             for (const key in modelModule) {
@@ -95,7 +94,7 @@ async function collectMongooseSchemas(dir: string) {
 
 await collectMongooseSchemas(modelsPath);
 
-// ========= Step 4: Write Swagger YAML =========
+// ========= Step 4: Generate Swagger Object =========
 const swaggerDoc = {
     openapi: '3.0.0',
     info: {
@@ -108,6 +107,12 @@ const swaggerDoc = {
     }
 };
 
-const outputPath = path.join(__dirname, '../../swagger.yaml');
-fs.writeFileSync(outputPath, YAML.stringify(swaggerDoc), 'utf-8');
-console.log('✅ Swagger YAML generated at:', outputPath);
+// ========= Step 5: Write Files =========
+const outYaml = path.join(__dirname, '../../swagger.yaml');
+const outJson = path.join(__dirname, '../../swagger.json');
+
+fs.writeFileSync(outYaml, YAML.stringify(swaggerDoc), 'utf-8');
+fs.writeFileSync(outJson, JSON.stringify(swaggerDoc, null, 2), 'utf-8');
+
+
+console.log('✅ swagger.yaml, swagger.json, and swagger.ts generated!');

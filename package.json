@@ -5,14 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec \"node --loader ts-node/esm src/server.ts\"",
-    "build": "tsc && node post-build.mjs",
-    "start": "node dist/server.js",
+    "build": "npm run clean && tsc && node post-build.mjs",
+    "embed:swagger": "node embed-swagger.mjs",
+    "prod-build": "rm -rf prod && npm run generate:swagger && npm run embed:swagger && tsup",
+    "dev-start": "node dist/server.js",
+    "start": "node prod/server.js",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "clean": "rm -rf dist",
     "clean-js": "find . -type f \\( -name '*.js' -o -name '*.js.map' -o -name '*.d.ts' \\) -delete",
     "prepare": "husky install",
-    "generate": "npm run generate:swagger && npm run generate:types",
+    "generate": "npm run generate:swagger && npm run generate:types &&npm run embed:swagger",
     "generate:swagger": "tsx src/scripts/generate-swagger.mts",
     "generate:types": "openapi-typescript swagger.yaml -o src/types/api-types.ts"
   },
@@ -45,6 +48,7 @@
     "openapi-typescript": "^7.6.1",
     "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
+    "tsup": "^8.4.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "yaml": "^2.7.1"

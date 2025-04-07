@@ -1,5 +1,4 @@
-// AUTO-GENERATED. Do not edit.
-export const swaggerSpec = {
+{
   "openapi": "3.0.0",
   "info": {
     "title": "MR Chat API",
@@ -163,4 +162,4 @@ export const swaggerSpec = {
       }
     }
   }
-};
+}
